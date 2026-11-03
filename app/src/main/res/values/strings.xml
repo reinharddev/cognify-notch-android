@@ -1,0 +1,30 @@
+<resources>
+    <string name="app_name">Cognify Notch</string>
+    <string name="start">Show notch</string>
+    <string name="stop">Hide notch</string>
+    <string name="need_overlay">Allow "Display over other apps" for Cognify Notch, then come back.</string>
+    <string name="channel">Notch</string>
+    <string name="notif_text">Notch is active</string>
+    <string name="close">Close</string>
+    <string name="nothing_playing">Play a song to see it here</string>
+    <string name="need_music_access">Allow notification access so Notch can see what is playing. Notifications are not read.</string>
+    <string name="allow_music_access">Allow music access</string>
+    <string name="lyr_loading">Finding lyrics…</string>
+    <string name="lyr_instrumental">Instrumental</string>
+    <string name="lyr_missing">This song has no lyrics on LRCLIB yet</string>
+    <string name="lyr_offline">No connection. Check your internet.</string>
+    <string name="lyr_unavailable">LRCLIB is having trouble. Will retry shortly.</string>
+    <string name="tab_music">Music</string>
+    <string name="tab_tasks">Tasks</string>
+    <string name="tasks_open">%1$d open</string>
+    <string name="no_tasks">No tasks yet. Tap + to add one.</string>
+    <string name="add_task">Add task</string>
+    <string name="add_hint">e.g. meeting tomorrow at 9</string>
+    <string name="will_remind">Reminder: %1$s</string>
+    <string name="no_reminder">No reminder (add a time, e.g. "at 5pm")</string>
+    <string name="cancel">Cancel</string>
+    <string name="add">Add</string>
+    <string name="today">Today</string>
+    <string name="tomorrow">Tomorrow</string>
+    <string name="reminders">Reminders</string>
+</resources>

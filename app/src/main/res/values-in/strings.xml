@@ -1,0 +1,30 @@
+<resources>
+    <string name="app_name">Cognify Notch</string>
+    <string name="start">Tampilkan notch</string>
+    <string name="stop">Sembunyikan notch</string>
+    <string name="need_overlay">Izinkan "Tampil di atas aplikasi lain" untuk Cognify Notch, lalu kembali ke sini.</string>
+    <string name="channel">Notch</string>
+    <string name="notif_text">Notch sedang aktif</string>
+    <string name="close">Tutup</string>
+    <string name="nothing_playing">Putar lagu untuk melihatnya di sini</string>
+    <string name="need_music_access">Izinkan akses notifikasi agar Notch bisa melihat lagu yang diputar. Isi notifikasi tidak dibaca.</string>
+    <string name="allow_music_access">Izinkan akses musik</string>
+    <string name="lyr_loading">Mencari lirik…</string>
+    <string name="lyr_instrumental">Lagu instrumental</string>
+    <string name="lyr_missing">Lagu ini belum punya lirik di LRCLIB</string>
+    <string name="lyr_offline">Tidak ada koneksi. Periksa internet.</string>
+    <string name="lyr_unavailable">LRCLIB sedang bermasalah. Dicoba lagi nanti.</string>
+    <string name="tab_music">Musik</string>
+    <string name="tab_tasks">Tugas</string>
+    <string name="tasks_open">%1$d belum selesai</string>
+    <string name="no_tasks">Belum ada tugas. Ketuk + untuk menambah.</string>
+    <string name="add_task">Tambah tugas</string>
+    <string name="add_hint">Contoh: rapat besok jam 9</string>
+    <string name="will_remind">Pengingat: %1$s</string>
+    <string name="no_reminder">Tanpa pengingat (tambahkan waktu, misal "jam 5 sore")</string>
+    <string name="cancel">Batal</string>
+    <string name="add">Tambah</string>
+    <string name="today">Hari ini</string>
+    <string name="tomorrow">Besok</string>
+    <string name="reminders">Pengingat</string>
+</resources>

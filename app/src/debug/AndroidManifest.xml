@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <application>
+        <!-- Hanya build debug: membuat sesi media palsu untuk menguji notch tanpa app musik. -->
+        <receiver android:name=".DemoReceiver" android:exported="true" />
+    </application>
+</manifest>
