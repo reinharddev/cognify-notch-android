@@ -1,7 +1,7 @@
-# Cognify Notch untuk Android (tablet) / for Android tablets
+# Cognify Notch untuk Android (HP dan tablet) / for Android phones and tablets
 
-Notch kecil yang menempel di tepi atas layar tablet Android, di atas aplikasi lain: musik yang sedang diputar dengan lirik tersinkron, dan tugas dengan pengingat.
-A small notch pinned to the top edge of an Android tablet, over other apps: now playing with synced lyrics, and tasks with reminders.
+Notch kecil yang menempel di tepi atas layar HP dan tablet Android, di atas aplikasi lain: musik yang sedang diputar dengan lirik tersinkron, dan tugas dengan pengingat.
+A small notch pinned to the top edge of an Android phone or tablet, over other apps: now playing with synced lyrics, and tasks with reminders.
 
 - Android 8.0 (API 26) ke atas / and up. Kotlin + Jetpack Compose, tanpa library pihak ketiga selain AndroidX.
 - Hemat: saat tertutup tidak ada animasi, timer, atau polling; hanya satu foreground service.
@@ -18,7 +18,7 @@ A small notch pinned to the top edge of an Android tablet, over other apps: now 
 
 ## Pasang / Install
 
-Unduh APK dari halaman [Releases](../../releases), lalu buka di tablet (izinkan "pasang dari sumber ini"). Buka app, ketuk **Tampilkan notch**, dan beri izin yang diminta.
+Satu APK untuk HP dan tablet. Unduh dari halaman [Releases](../../releases), lalu buka di perangkat (izinkan "pasang dari sumber ini"). Buka app, ketuk **Tampilkan notch**, dan beri izin yang diminta.
 
 ## Membangun / Build
 

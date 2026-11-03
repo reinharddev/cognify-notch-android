@@ -13,7 +13,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
@@ -59,7 +59,7 @@ private fun Form(onDone: () -> Unit) {
         contentAlignment = Alignment.TopCenter,
     ) {
         Column(
-            Modifier.padding(top = 96.dp).width(420.dp).background(Color.Black, RoundedCornerShape(20.dp))
+            Modifier.padding(top = 96.dp, start = 16.dp, end = 16.dp).widthIn(max = 420.dp).fillMaxWidth().background(Color.Black, RoundedCornerShape(20.dp))
                 .clickable(MutableInteractionSource(), null) {}.padding(20.dp),
         ) {
             T(stringResource(R.string.add_task), Color.White, 16.sp)

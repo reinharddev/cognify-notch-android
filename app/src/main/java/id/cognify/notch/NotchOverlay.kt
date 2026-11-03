@@ -54,9 +54,10 @@ private val Amber = Color(0xFFFF9F0A)
 
 /** Pil hitam di tepi atas layar. Ketuk untuk melebar; ketuk garis kecil di panel untuk menciut. */
 @Composable
-fun NotchOverlay(topInset: Float, onClose: () -> Unit) {
+fun NotchOverlay(topInset: Float, onOpenChange: (Boolean) -> Unit, onClose: () -> Unit) {
     var open by remember { mutableStateOf(false) }
     var tab by remember { mutableStateOf(0) }
+    LaunchedEffect(open) { onOpenChange(open) }
     val shape = RoundedCornerShape(bottomStart = 22.dp, bottomEnd = 22.dp)
     Box(Modifier.animateContentSize().background(Ink, shape)) {
         Column {
@@ -71,7 +72,9 @@ fun NotchOverlay(topInset: Float, onClose: () -> Unit) {
 private fun Panel(tab: Int, onTab: (Int) -> Unit, onCollapse: () -> Unit, onClose: () -> Unit) {
     val ctx = LocalContext.current
     val t = MediaState.track
-    Column(Modifier.width(380.dp).padding(horizontal = 18.dp).padding(bottom = 12.dp)) {
+    // Lebar panel menyesuaikan layar: 380dp di tablet, selebar layar dikurangi sisa 12dp di tiap sisi di HP.
+    val panelW = panelWidthDp()
+    Column(Modifier.width(panelW.dp).padding(horizontal = 18.dp).padding(bottom = 12.dp)) {
         Box(Modifier.fillMaxWidth().height(24.dp).clickable(onClick = onCollapse), contentAlignment = Alignment.Center) {
             Box(Modifier.width(36.dp).height(4.dp).background(Color(0xFF444444), RoundedCornerShape(2.dp)))
         }
@@ -79,7 +82,7 @@ private fun Panel(tab: Int, onTab: (Int) -> Unit, onCollapse: () -> Unit, onClos
             T(stringResource(R.string.tab_music), if (tab == 0) Color.White else Color(0x66FFFFFF), 13.sp, Modifier.clickable { onTab(0) })
             T(stringResource(R.string.tab_tasks), if (tab == 1) Color.White else Color(0x66FFFFFF), 13.sp, Modifier.clickable { onTab(1) })
         }
-        if (tab == 1) Tasks(ctx, onAdd = onCollapse) else if (t == null) Empty(ctx) else Now(t, ctx)
+        if (tab == 1) Tasks(ctx, onAdd = onCollapse) else if (t == null) Empty(ctx) else Now(t, ctx, if (panelW < 340) 34 else 40)
         T(stringResource(R.string.close), Dim, 12.sp, Modifier.padding(top = 10.dp).clickable { onClose() })
     }
 }
@@ -152,7 +155,7 @@ private fun Empty(ctx: Context) {
 }
 
 @Composable
-private fun Now(t: Track, ctx: Context) {
+private fun Now(t: Track, ctx: Context, glyph: Int) {
     // Lirik hanya diminta saat panel terbuka.
     LaunchedEffect(t.title, t.artist, t.album) { Lyrics.load(ctx, t) }
     Row(verticalAlignment = Alignment.CenterVertically) {
@@ -163,9 +166,9 @@ private fun Now(t: Track, ctx: Context) {
             T(t.title, Color.White, 16.sp, maxLines = 1)
             T(t.artist, Dim, 12.sp, maxLines = 1)
         }
-        Glyph(Glyph.Prev) { MediaState.previous() }
-        Glyph(if (MediaState.playing) Glyph.Pause else Glyph.Play) { MediaState.toggle() }
-        Glyph(Glyph.Next) { MediaState.next() }
+        Glyph(Glyph.Prev, glyph) { MediaState.previous() }
+        Glyph(if (MediaState.playing) Glyph.Pause else Glyph.Play, glyph) { MediaState.toggle() }
+        Glyph(Glyph.Next, glyph) { MediaState.next() }
     }
     // Posisi dihitung ulang tiap 250 ms, hanya selagi panel terbuka dan lagu diputar.
     var pos by remember { mutableLongStateOf(MediaState.positionNow()) }
@@ -224,8 +227,8 @@ private fun Msg(id: Int) = Box(Modifier.fillMaxWidth().height(112.dp), contentAl
 private enum class Glyph { Prev, Play, Pause, Next }
 
 @Composable
-private fun Glyph(kind: Glyph, onClick: () -> Unit) {
-    Canvas(Modifier.size(40.dp).clickable(onClick = onClick)) {
+private fun Glyph(kind: Glyph, sizeDp: Int, onClick: () -> Unit) {
+    Canvas(Modifier.size(sizeDp.dp).clickable(onClick = onClick)) {
         val w = size.width
         val h = size.height
         fun tri(x1: Float, x2: Float) = Path().apply {
@@ -257,3 +260,16 @@ fun T(text: String, color: Color, fontSize: TextUnit, modifier: Modifier = Modif
         TextStyle(color = color, fontSize = fontSize, textDecoration = if (strike) androidx.compose.ui.text.style.TextDecoration.LineThrough else null),
         maxLines = maxLines, overflow = TextOverflow.Ellipsis,
     )
+
+/** Lebar layar sebenarnya dalam dp (LocalConfiguration di dalam service tidak selalu akurat). Diperbarui saat layar berputar. */
+/** Lebar panel terbuka dalam dp: 380 di tablet, selebar layar dikurangi 24 di HP. */
+fun panelWidthDp() = min(380, ScreenInfo.widthDp - 24)
+
+object ScreenInfo {
+    var widthDp by androidx.compose.runtime.mutableIntStateOf(380); private set
+
+    fun update(ctx: Context) {
+        val dm = ctx.resources.displayMetrics
+        widthDp = (dm.widthPixels / dm.density).toInt()
+    }
+}

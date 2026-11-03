@@ -40,6 +40,7 @@ class OverlayService : Service() {
     override fun onCreate() {
         super.onCreate()
         wm = getSystemService(Context.WINDOW_SERVICE) as WindowManager
+        ScreenInfo.update(this)
         startInForeground()
         owner.start()
         val v = ComposeView(this).apply {
@@ -47,7 +48,7 @@ class OverlayService : Service() {
             setViewTreeSavedStateRegistryOwner(owner)
             setViewTreeViewModelStoreOwner(owner)
             setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
-            setContent { NotchOverlay(topInset = statusBarDp(), onClose = { stopSelf() }) }
+            setContent { NotchOverlay(topInset = statusBarDp(), onOpenChange = ::setOpen, onClose = { stopSelf() }) }
         }
         val lp = WindowManager.LayoutParams(
             WindowManager.LayoutParams.WRAP_CONTENT,
@@ -63,6 +64,11 @@ class OverlayService : Service() {
         view = v
     }
 
+    override fun onConfigurationChanged(newConfig: android.content.res.Configuration) {
+        super.onConfigurationChanged(newConfig)
+        ScreenInfo.update(this)
+    }
+
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int) = START_NOT_STICKY
 
     override fun onDestroy() {
@@ -70,6 +76,17 @@ class OverlayService : Service() {
         view = null
         owner.stop()
         super.onDestroy()
+    }
+
+    /**
+     * Jendela WRAP_CONTENT dibatasi sistem ke lebar dialog bawaan (sekitar 311 dp di HP), dan Compose tidak melaporkan
+     * bahwa isinya terpotong. Jadi saat panel terbuka lebarnya diatur eksplisit.
+     */
+    private fun setOpen(open: Boolean) {
+        val v = view ?: return
+        val lp = v.layoutParams as WindowManager.LayoutParams
+        lp.width = if (open) (panelWidthDp() * resources.displayMetrics.density).toInt() else WindowManager.LayoutParams.WRAP_CONTENT
+        runCatching { wm.updateViewLayout(v, lp) }
     }
 
     /** Status bar selalu di atas overlay dan mengambil sentuhan di sana, jadi pil dibuat setinggi itu lebih panjang. */
